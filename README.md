@@ -1,136 +1,149 @@
-# Multi-CALF: Critic as a Lyapunov Function
+# Vis-Pendulum: Visual Pendulum Environment for Reinforcement Learning
 
-This repository contains the demo implementation of the Multi-CALF (Critic as a Lyapunov Function) approach described in the paper [TODO PASTE PAPER NAME HERE].
+A reinforcement learning environment featuring a pendulum with image observations, using Gymnasium and Stable-Baselines3 for training and evaluation.
 
-## Project Overview
+## Overview
 
-Multi-CALF is a reinforcement learning approach that uses the critic function as a Lyapunov function to ensure stability and safety during training and deployment. This repository provides a demonstration of how Multi-CALF works in practice.
+This project implements a visual version of the classic pendulum control problem. Instead of state vector observations, the agent receives rendered images of the pendulum. The goal is to learn a policy that can stabilize the pendulum in an upright position by applying appropriate torques.
 
-We have constructed a visual pendulum environment specifically for this demonstration, which provides image-based observations of a pendulum system. This allows for testing the Multi-CALF approach in a setting where the agent must learn from high-dimensional visual inputs rather than low-dimensional state representations.
-
-## Repository Structure
-
-```
-multi-calf/
-├── run/                      # Scripts for running experiments
-│   ├── train_ppo_vispendulum.py  # Training script for PPO on visual pendulum
-│   ├── eval.py               # Evaluation script
-│   ├── artifacts/            # Saved model artifacts
-│   └── mlruns/               # MLflow experiment tracking data
-├── src/                      # Source code
-│   ├── envs/                 # Environment implementations
-│   │   ├── visual_pendulum.py  # Visual pendulum environment
-│   │   └── assets/           # Visual assets for environments
-│   ├── wrapper/              # Environment wrappers
-│   │   ├── calf_wrapper.py   # CALF wrapper implementation
-│   │   ├── common_wrapper.py # Common wrapper utilities
-│   │   └── multicalf.py      # Multi-CALF implementation
-│   ├── utils/                # Utility functions
-│   │   └── mlflow.py         # MLflow utilities
-│   └── model.py              # Neural network model definitions
-├── pyproject.toml            # Project dependencies and configuration
-└── uv.lock                   # Lock file for uv package manager
-```
+Key features:
+- Image-based observation space instead of traditional state-based observations
+- Custom CNN feature extractor for processing visual input
+- Integration with MLflow for experiment tracking
+- Support for rendering and video creation during evaluation
 
 ## Installation
 
-This project uses [uv](https://github.com/astral-sh/uv) for dependency management. uv is a fast, reliable Python package installer and resolver.
+### Using pip
 
-### Installing uv
-
-To install uv, run:
-
-```bash
-curl -sSf https://astral.sh/uv/install.sh | bash
-```
-
-Or on Windows:
-
-```bash
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-### Setting up the environment
-   sudo apt-get install -y libosmesa6-dev libgl1-mesa-dev libglfw3  for offline render
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/multi-calf.git
-   cd multi-calf
-   ```
+```bash
+git clone https://github.com/yourusername/vis-pendulum.git
+cd vis-pendulum
+```
 
-2. Create a virtual environment with Python 3.13.2:
-   ```bash
-   uv venv --python=3.13.2
-   uv sync
-   ```
+2. Create a virtual environment and install dependencies:
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -e .
+```
 
-## Running Experiments
+### Using uv (Recommended)
+
+[uv](https://docs.astral.sh/uv/) is a fast Python package installer and resolver.
+
+1. Install uv:
+```bash
+# Using pip
+pip install uv
+
+# Or using curl (Linux/macOS)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Or using PowerShell (Windows)
+irm https://astral.sh/uv/install.ps1 | iex
+```
+
+2. Clone the repository:
+```bash
+git clone https://github.com/yourusername/vis-pendulum.git
+cd vis-pendulum
+```
+
+3. Install the project with uv:
+```bash
+# Install all dependencies and create a virtual environment automatically
+uv sync
+
+# Or with development extras if available
+uv sync --dev
+```
+
+## Project Structure
+
+```
+vis-pendulum/
+├── run/                # Training and evaluation scripts
+│   ├── scripts/        # Utility scripts
+│   ├── artifacts/      # Training artifacts (models, videos)
+│   ├── mlruns/         # MLflow experiment data
+│   ├── train_ppo_vispendulum.py  # Training script for PPO
+│   └── eval_vispendulum.py       # Evaluation script
+├── src/                # Core implementation
+│   ├── envs/           # Environment implementations
+│   │   └── visual_pendulum.py    # Visual pendulum environment
+│   ├── utils/          # Utility functions
+│   ├── wrapper/        # Environment wrappers
+│   ├── model.py        # Custom neural network models
+│   └── __init__.py     # Package initialization
+├── .venv/              # Virtual environment
+├── pyproject.toml      # Project metadata and dependencies
+└── LICENSE             # License information
+```
+
+## Usage
 
 ### Training
 
 To train a PPO agent on the visual pendulum environment:
 
+Using Python directly:
 ```bash
-uv run run/train_ppo_vispendulum.py
+python run/train_ppo_vispendulum.py --env_id VisualPendulumClassicReward --total_timesteps 300000
 ```
 
-You can customize the training parameters by modifying the arguments:
-
+Using uv:
 ```bash
-uv run run/train_ppo_vispendulum.py --seed 42 --total-timesteps 500000 --learning-rate 3e-4
+uv run python run/train_ppo_vispendulum.py --env_id VisualPendulumClassicReward --total_timesteps 300000
 ```
 
-For the full details about training parameters type
-```bash
-uv run run/train_ppo_vispendulum.py --help
-```
+Key parameters:
+- `--env_id`: Environment ID (`VisualPendulumClassicReward` or `VisualPendulumUpswingReward`)
+- `--total_timesteps`: Total number of training timesteps
+- `--n_envs`: Number of parallel environments
+- `--seed`: Random seed for reproducibility
+
+Check `run/train_ppo_vispendulum.py` for all available parameters.
 
 ### Evaluation
 
 To evaluate a trained model:
 
+Using Python directly:
 ```bash
-uv run run/eval.py --checkpoint-path run/artifacts/path/to/your/checkpoint
+python run/eval_vispendulum.py --checkpoint_path /path/to/model.zip --n_steps 200
 ```
 
-## Tracking Experiments
+Using uv:
+```bash
+uv run python run/eval_vispendulum.py --checkpoint_path /path/to/model.zip --n_steps 200
+```
 
-This project uses MLflow for experiment tracking. You can view the experiment results by running:
+Key parameters:
+- `--checkpoint_path`: Path to the model checkpoint
+- `--n_steps`: Number of evaluation steps
+- `--n_envs`: Number of parallel environments
+- `--render`: Whether to render the environment and save videos
+
+## Environment Details
+
+The VisualPendulum environment replaces the typical state observation with rendered images. The agent's task is to control the pendulum by applying torques to swing it up and keep it upright.
+
+Two reward variants are available:
+- `VisualPendulumClassicReward`: Standard pendulum reward based on angle and velocity
+- `VisualPendulumUpswingReward`: Reward focused on swinging up to the upright position
+
+## Experiment Tracking
+
+The project uses MLflow for experiment tracking. To view experiment results:
 
 ```bash
-cd run
-mlflow ui --port=5000
+mlflow ui
 ```
 
 Then navigate to http://localhost:5000 in your web browser.
 
 ## License
 
-MIT License
-
-Copyright (c) 2024
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-## Citation
-
-If you use this code in your research, please cite:
-
-```
-[TODO: Add citation information for the paper]
+See the LICENSE file for details.
