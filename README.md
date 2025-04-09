@@ -4,6 +4,7 @@ A reinforcement learning environment featuring a pendulum with image observation
 
 <p align="center">
   <img src="gfx/fitted_pendulum_episode.gif" alt="Pendulum Episode">
+  <img src="gfx/learning_curve.png">
 </p>
 
 ## Overview
