@@ -3,9 +3,10 @@
 A reinforcement learning environment featuring a pendulum with image observations, using Gymnasium and Stable-Baselines3 for training and evaluation.
 
 <p align="center">
-  <img src="gfx/fitted_pendulum_episode.gif" alt="Pendulum Episode">
-  <img src="gfx/learning_curve.png">
+  <img src="gfx/fitted_pendulum_episode.gif" height="200" alt="Pendulum Episode" style="vertical-align:middle;" />
+  <img src="gfx/learning_curve.png" height="200" alt="learning_curve" style="vertical-align:middle;" />
 </p>
+
 
 ## Overview
 
