@@ -5,9 +5,11 @@ A reinforcement learning environment featuring a pendulum with image observation
 <p align="center">
     <img src="gfx/fitted_pendulum_episode.gif" height="300" alt="Pendulum Episode" style="vertical-align:middle;" />
     <img src="gfx/learning_curve.png" height="300" alt="learning_curve" style="vertical-align:middle;" />
-    
-    *Pendulum stabilization demonstration at the final training stage, along with the corresponding learning curve.*
+
+Pendulum stabilization demonstration at the final training stage, along with the corresponding learning curve.
 </p>
+
+
 
 ## Overview
 
