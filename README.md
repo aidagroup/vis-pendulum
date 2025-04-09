@@ -10,7 +10,13 @@ A reinforcement learning environment featuring a pendulum with image observation
 
 ## Overview
 
-This project implements a visual version of the classic pendulum control problem. Instead of state vector observations, the agent receives rendered images of the pendulum. The goal is to learn a policy that can stabilize the pendulum in an upright position by applying appropriate torques.
+This project implements a visual version of the classic pendulum control problem. Instead of state vector observations, the agent receives rendered images of the pendulum. 
+
+<p align="center">
+  <img src="gfx/pendulum_observations.png" height="300" alt="Pendulum observations" style="vertical-align:middle;" />
+</p>
+
+The goal is to learn a policy that can stabilize the pendulum in an upright position by applying appropriate torques.
 
 Key features:
 - Image-based observation space instead of traditional state-based observations
