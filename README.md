@@ -2,6 +2,10 @@
 
 A reinforcement learning environment featuring a pendulum with image observations, using Gymnasium and Stable-Baselines3 for training and evaluation.
 
+<p align="center">
+  <img src="gfx/fitted_pendulum_episode.gif" alt="Pendulum Episode">
+</p>
+
 ## Overview
 
 This project implements a visual version of the classic pendulum control problem. Instead of state vector observations, the agent receives rendered images of the pendulum. The goal is to learn a policy that can stabilize the pendulum in an upright position by applying appropriate torques.
