@@ -7,7 +7,7 @@ A reinforcement learning environment featuring a pendulum with image observation
     <img src="gfx/learning_curve.png" height="300" alt="learning_curve" style="vertical-align:middle;" />
 </p>
 <div align="center">
-  Pendulum stabilization demonstration at the final training stage, along with the corresponding learning curve.
+  _Pendulum stabilization demonstration at the final training stage, along with the corresponding learning curve._
 </div>
 
 
@@ -15,10 +15,12 @@ A reinforcement learning environment featuring a pendulum with image observation
 
 This project implements a visual version of the classic pendulum control problem. Instead of state vector observations, the agent receives rendered images of the pendulum. 
 
-<figure style="text-align:center;">
+<p align="center">
   <img src="gfx/pendulum_observations.png" height="150" alt="Pendulum observations" style="vertical-align:middle;" />
-  <figcaption>Illustration of image-based observations used for the vis-pendulum environment.</figcaption>
-</figure>
+</p>
+<div align="center">
+  _Illustration of image-based observations used for the vis-pendulum environment._
+</div>
 
 The goal is to learn a policy that can stabilize the pendulum in an upright position by applying appropriate torques.
 
