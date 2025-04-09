@@ -16,7 +16,7 @@ A reinforcement learning environment featuring a pendulum with image observation
 This project implements a visual version of the classic pendulum control problem. Instead of state vector observations, the agent receives rendered images of the pendulum. 
 
 <p align="center">
-  <img src="gfx/pendulum_observations.png" height="150" alt="Pendulum observations" style="vertical-align:middle;" />
+  <img src="gfx/pendulum_observations.png" height="100" alt="Pendulum observations" style="vertical-align:middle;" />
 </p>
 <div align="center">
   <em>Illustration of image-based observations used for the vis-pendulum environment.</em>
