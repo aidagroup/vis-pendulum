@@ -157,6 +157,7 @@ Two reward variants are available:
 The project uses MLflow for experiment tracking. To view experiment results:
 
 ```bash
+cd run
 mlflow ui
 ```
 
